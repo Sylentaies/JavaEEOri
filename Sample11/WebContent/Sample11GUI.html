@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Sample07R GUI</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>
+<script>
+	$(document).ready(function() {
+		$("#itemList").hide();
+		$("#submit").click(function() {
+			var params=$("input").serialize(); 
+			$.ajax({
+				url: "http://localhost:8080/Sample11/rest/hello",
+				type: "post",
+				dataType: "json",
+				data: params,
+				success:showData
+			});
+		});
+		$("#clear").click(function() {
+			$("#itemList").fadeOut("slow");
+			$("#name").val("");
+			$("#age").val("");
+		});
+	});
+	function showData(data) {
+		var rows = "";
+		$("#users").empty();
+		$("#welcome").html(data.msg);		
+		$(data.user).each(function(i, item) {
+			var name = item.name;
+			var age = item.age;
+			rows = "<tr><td>" + name + "</td><td>" + age + "</td></tr>";
+			$(rows).appendTo("#users");
+		})	
+		$("#itemList").fadeIn("slow");		
+	}
+</script>
+</head>
+<body>
+<h2><font color="green">Sample11: HTML + JQuery + AJAX + REST ~ Spring ~ JDBC</font></h2>
+<table>
+	<tr>
+		<td>Name: </td>
+		<td><input type="text" name="name" id="name"/></td>
+	</tr>
+	<tr>
+		<td>Age: </td>
+		<td><input type="text" name="age" id="age"/></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<button id="clear">Clear</button>
+			<button id="submit">Submit</button>
+		</td>
+	</tr>
+</table>	
+<br />	
+<h2><font color="green" id="welcome"></font></h2>
+<table id="itemList" border="1" width="200">
+	<tr>
+		<th>Name</th>
+		<th>Age</th>
+	</tr>
+	<tbody id="users">
+	</tbody>
+</table>
+		
+</body>
+</html>

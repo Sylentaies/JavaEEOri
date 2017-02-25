@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="
+	   	   http://www.springframework.org/schema/beans
+	   	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">   	   
+	<bean id="helloAction" class="com.mercury.actions.HelloAction" autowire="byType"/>
+	<bean id="helloService" class="com.mercury.services.HelloService" autowire="byType"/>
+	<bean id="helloDao" class="com.mercury.dao.impl.HelloDaoImpl" autowire="byName"/>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean" 
+		autowire="byName">
+		<property name="mappingResources">
+			<list>
+				<value>com/mercury/mappings/User.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+    	<property name="jndiName" value="java:comp/env/jdbc/myoracle" />
+	</bean>	   	      	   
+</beans>
+	   	   

@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Sample07 GUI</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js">
+</script>
+<script>
+	$(document).ready(function() {
+		$("#itemList").hide();
+		$("#submit").click(function() {
+			var params=$("input").serialize(); 		
+			$.ajax({
+				url: "HelloServlet", // full name: "http://localhost:8080/Sample10/HelloServlet",
+				type: "post",
+				dataType: "xml",
+				data: params,
+				success:showData
+			});	
+		});
+		$("#clear").click(function() {
+			$("#itemList").fadeOut("slow");
+			$("#name").val("");
+			$("#age").val("");
+		});
+	});
+	function showData(data) {
+		var rows = "";
+		$("#users").empty();
+		$(data).find("user").each(function() {
+			var name = $(this).find("name").text();
+			var age = $(this).find("age").text();
+			rows = "<tr><td>" + name + "</td><td>" + age + "</td></tr>";
+			$(rows).appendTo("#users");
+		})	
+		$("#itemList").fadeIn(5000);
+	}
+</script>
+</head>
+<body>
+<h2><font color="green">Sample10: HTML + JQuery + AJAX + Servlet ~ Spring ~ JDBC</font></h2>
+<table>
+	<tr>
+		<td>Name: </td>
+		<td><input type="text" name="name" id="name"/></td>
+	</tr>
+	<tr>
+		<td>Age: </td>
+		<td><input type="text" name="age" id="age"/></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>
+			<button id="clear">Clear</button>
+			<button id="submit">Submit</button>
+		</td>
+	</tr>
+</table>	
+<br />	
+<table id="itemList" border="1" width="200">
+	<caption><font color="red">Welcome to JQuery/AJAX</font></caption>
+	<tr>
+		<th>Name</th>
+		<th>Age</th>
+	</tr>
+	<tbody id="users">
+	</tbody>
+</table>
+		
+</body>
+</html>
